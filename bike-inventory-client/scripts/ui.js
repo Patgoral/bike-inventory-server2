@@ -18,7 +18,6 @@ export const onFailure = (error) => {
     <h3>You've got an error! </h3>
     <p>${error}</p>
     `
-	console.log(error)
 }
 
 export const onCreateBikeSuccess = () => {
@@ -33,6 +32,24 @@ export const onShowBikeSuccess = (bike) => {
     <p>${bike.style}</p>
     <p>${bike.size}</p>
     <p>${bike._id}</p>
+
+    <form data-id="${bike._id}">
+    <input type="text" name="brandName" value="${bike.brandName}">
+    <input type="text" name="modelName" value="${bike.modelName}">
+    <input type="text" name="style" value="${bike.style}">
+    <input type="number" name="size" value="${bike.size}">
+    <input type="submit" value="Update Bike">
+  </form>
+
+  <button data-id="${bike._id}">DELETE BIKE</button>
     `
 	showBikeContainer.appendChild(div)
+}
+
+export const onUpdateBikeSuccess = () => {
+	messageContainer.innerText = 'Successful Update!'
+}
+
+export const onDeleteBikeSuccess = () => {
+	messageContainer.innerText = 'DELETED!!!'
 }
