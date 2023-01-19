@@ -29,6 +29,22 @@ router.post('/bikes', (req, res, next) => {
 		.catch(next)
 })
 
+router.patch('/bikes/:id', (req, res, next) => {
+	Bike.findById(req.params.id)
+		.then((bike) => {
+			return bike.updateOne(req.body.bike)
+		})
+		.then(() => res.sendStatus(204))
+		.catch(next)
+})
 
+router.delete('/bikes/:id', (req, res, next) => {
+	Bike.findById(req.params.id)
+		.then((bike) => {
+			return bike.deleteOne()
+		})
+		.then(() => res.sendStatus(204))
+		.catch(next)
+})
 
 module.exports = router
