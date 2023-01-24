@@ -2,9 +2,12 @@ const express = require('express')
 
 const Bike = require('../models/bike')
 
-const router = express.Router()
 
-router.get('/bikes', (req, res, next) => {
+const router = express.Router()
+const { requireToken } = require('../config/auth')
+
+// SHOW
+router.get('/bikes', requireToken, (req, res, next) => {
 	Bike.find()
 		.then((bikes) => {
 			return bikes.map((bike) => bike)
@@ -15,13 +18,15 @@ router.get('/bikes', (req, res, next) => {
 		.catch(next)
 })
 
-router.get('/bikes/:id', (req, res, next) => {
+// INDEX
+router.get('/bikes/:id', requireToken, (req, res, next) => {
 	Bike.findById(req.params.id)
 		.then((bike) => res.status(200).json({ bike: bike }))
 		.catch(next)
 })
 
-router.post('/bikes', (req, res, next) => {
+// CREATE
+router.post('/bikes', requireToken, (req, res, next) => {
 	Bike.create(req.body.bike)
 		.then((bike) => {
 			res.status(201).json({ bike: bike })
@@ -29,7 +34,8 @@ router.post('/bikes', (req, res, next) => {
 		.catch(next)
 })
 
-router.patch('/bikes/:id', (req, res, next) => {
+// UPDATE
+router.patch('/bikes/:id', requireToken, (req, res, next) => {
 	Bike.findById(req.params.id)
 		.then((bike) => {
 			return bike.updateOne(req.body.bike)
@@ -38,7 +44,8 @@ router.patch('/bikes/:id', (req, res, next) => {
 		.catch(next)
 })
 
-router.delete('/bikes/:id', (req, res, next) => {
+//  DELETE
+router.delete('/bikes/:id', requireToken, (req, res, next) => {
 	Bike.findById(req.params.id)
 		.then((bike) => {
 			return bike.deleteOne()
